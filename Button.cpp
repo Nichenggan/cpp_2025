@@ -12,6 +12,6 @@ void Button::draw() const {
 }
 
 bool Button::isClicked(int mouseX, int mouseY) const {
-    return mouseX >= position.x && mouseX <= position.x + size.x &&
-           mouseY >= position.y && mouseY <= position.y + size.y;
+    return (mouseX >= position.x && mouseX <= position.x + size.x &&
+           mouseY >= position.y && mouseY <= position.y + size.y) && G2D::isMouseLeftButtonPressed();
 }
