@@ -67,6 +67,8 @@ void _G2D::initKeys()
 }
 
  
+void startPause();
+void endPause();
 
 void _G2D::keyboard(unsigned char key, int x, int y)
 {
@@ -74,8 +76,17 @@ void _G2D::keyboard(unsigned char key, int x, int y)
 	activeKeys[keyTable[key]] = true;
 	keyHit[keyTable[key]] = true;
 
-	if (  keyTable[key] == Key::P  )
-		isPaused = ! isPaused;
+	if (keyTable[key] == Key::P)
+		if (isPaused)
+		{
+			endPause();
+			isPaused = false;
+		}
+		else
+		{
+			startPause();
+			isPaused = true;
+		}
 }
 
 void _G2D::keyUp(unsigned char key, int x, int y)

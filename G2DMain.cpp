@@ -99,21 +99,39 @@ void anim(int value)
 	
 }
 
- 
-double G2D::elapsedTimeFromStartSeconds()
+auto   T0Pause = Time::now();
+double timeSpentInPause = 0;  
+
+double deltaTimeMS(std::chrono::steady_clock::time_point now, 
+						  std::chrono::steady_clock::time_point start)
 {
-	auto TNewFrame = Time::now();
-	
 	typedef std::chrono::milliseconds ms;
 	typedef std::chrono::duration<double> duration;
 
-	duration fs = TNewFrame - T0;
-	ms d        = std::chrono::duration_cast<ms>(fs);
-	double Tms  = d.count() * 0.001;
-	
+	duration fs = now - start;
+	ms d = std::chrono::duration_cast<ms>(fs);
+	double Tms = d.count() * 0.001;
+
 	return Tms;
 }
+ 
+double G2D::elapsedTimeFromStartSeconds()
+{
+	double Tms = deltaTimeMS(Time::now(),T0);
+	return Tms - timeSpentInPause;
+}
 
+void startPause()
+{
+	T0Pause = Time::now();
+}
+
+void endPause()
+{
+	double Tms = deltaTimeMS(Time::now(), T0Pause);
+
+	timeSpentInPause += Tms;
+}
  
 
 

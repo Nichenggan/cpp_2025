@@ -24,12 +24,13 @@ Color ColorFromHex(int hexCode);
 enum class Key {   Unknown, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
 	               LEFT, RIGHT, UP, DOWN, ENTER, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12   };
 
+enum class Transparency { None, BottomLeft, BottomRight, UpperLeft, UpperRight };
 
 namespace G2D
 {
 	// key management 
-	bool isKeyPressed(Key k);   // indique si la touche est enfoncée (retourne true tant que le touche est appuyée)
-	bool keyHasBeenHit(Key k);  // retourne true si la touche a été appuyée, retourne false si la touche reste enfoncée
+	bool isKeyPressed(Key k);   // indique si la touche est enfoncï¿½e (retourne true tant que le touche est appuyï¿½e)
+	bool keyHasBeenHit(Key k);  // retourne true si la touche a ï¿½tï¿½ appuyï¿½e, retourne false si la touche reste enfoncï¿½e
 
 	// Main Graphic System Function
 
@@ -40,10 +41,10 @@ namespace G2D
  
 	// Mouse event
 	void getMousePos(int &x, int & y);
-	bool isMouseLeftButtonPressed();   // indique si le bouton gauche de la souris est enfoncé
+	bool isMouseLeftButtonPressed();   // indique si le bouton gauche de la souris est enfoncï¿½
 	bool isMouseRightButtonPressed();
 	bool isAnyMouseButtonPressed();
-	bool detectLeftClick();            // détecte si le bouton gauche de la souris a été cliqué
+	bool detectLeftClick();            // dï¿½tecte si le bouton gauche de la souris a ï¿½tï¿½ cliquï¿½
 	bool detectRightClick();
 
 
@@ -51,14 +52,15 @@ namespace G2D
 	void drawStringFontMono (V2 pos, std::string text, float fontSize = 20, float thickness = 3, Color c = Color::Black);
 	void drawStringFontRoman(V2 pos, std::string text, float fontSize = 20, float thickness = 3, Color c = Color::Black);
 
-	// Crée une texture à partir d'une description 1 lettre = 1 pixel/couleur 
+	// Crï¿½e une texture ï¿½ partir d'une description 1 lettre = 1 pixel/couleur 
 	int initTextureFromString(V2 & Size, const std::string & Sprite);
 
 	// Affichage d'un sprite
 	// angleDef produit une rotation du sprite autours de son centre
-	int  extractTextureFromPPM(const std::string & filepath, bool applyTransparency);
+	int  ExtractTextureFromPNG(const std::string& filepath, Transparency T);  // 1 pixel gives key-color transparency
+	int  ExtractTextureFromPNG(const std::string& filepath, int R = 0, int G = 0, int B = 0);
 	void drawRectWithTexture(int IDtexture, V2 pos, V2 size, float angleDeg = 0);
-	
+	int extractTextureFromPPM(const std::string & filepath, bool applyTransparency);
 	// Draw Geometry
 	void setPixel(V2 P, Color c);
 	void drawLine(V2 P1, V2 P2, Color c );
@@ -68,6 +70,6 @@ namespace G2D
 
 
 	// Timing function
-	double elapsedTimeFromStartSeconds();   // temps écoulé depuis le début du jeu
+	double elapsedTimeFromStartSeconds();   // temps ï¿½coulï¿½ depuis le dï¿½but du jeu
 	bool   isOnPause();
 }

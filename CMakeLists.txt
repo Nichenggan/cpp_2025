@@ -29,7 +29,9 @@ add_executable(Gravity_Ninja
         V2.cpp
         V2.h
         Button.h
-        Button.cpp)
+        Button.cpp
+        hero.h
+)
 
 target_link_libraries(Gravity_Ninja PRIVATE
         GLUT::GLUT
