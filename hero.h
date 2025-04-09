@@ -3,6 +3,9 @@
 
 #include <vector>
 #include "G2D.h"
+
+struct GameData;
+
 struct Hero {
     int posX;
     int posY;
@@ -10,64 +13,46 @@ struct Hero {
     bool inversed = true;
     int speed = 5;
     int height = 50;
-    double T0 = -1;
+    int health = 100;
+    double T_inverse = -1;
+    double T_attack = -1;
+    int attackRange = 15;
+    Key moveLeft = Key::LEFT;
+    Key moveRight = Key::RIGHT;
+    Key changeGravity = Key::N;
+    Key attackKey = Key::M;
+    Color color = Color::Cyan;
 
-    Hero(int x, int y) : posX(x), posY(y) {};
-    void drawHero() const{
-        G2D::drawCircle(V2(posX, posY), 5, Color::Green, true);
-        // Calculate the vertices of the equilateral triangle
-        std::vector<V2> PointList;
 
-        int halfBase = height / 2; // Half the base length of the triangle
 
-        if (direction == 1 && inversed == true) { // Facing right
-            PointList.push_back(V2(posX, posY)); // Top vertex
-            PointList.push_back(V2(posX, posY - height)); // Bottom-left vertex
-            PointList.push_back(V2(posX + halfBase, posY - height/2)); // Bottom-right vertex
-        } else if (direction == 0 && inversed == true) { // Facing left
-            PointList.push_back(V2(posX, posY)); // Top vertex
-            PointList.push_back(V2(posX, posY - height)); // Bottom-right vertex
-            PointList.push_back(V2(posX - halfBase, posY - height/2)); // Bottom-left vertex
-        } else if (direction == 1 && inversed == false) {
-            PointList.push_back(V2(posX, posY)); // buttom vertex
-            PointList.push_back(V2(posX, posY + height)); // Bottom-right vertex
-            PointList.push_back(V2(posX + halfBase, posY + height/2));
-        } else {
-            PointList.push_back(V2(posX, posY)); // buttom vertex
-            PointList.push_back(V2(posX, posY + height)); // Bottom-right vertex
-            PointList.push_back(V2(posX - halfBase, posY + height/2));
-        }
+    Hero(int x, int y, int direction, bool inversed, int speed, int height, int attackRange, Key moveLeft, Key moveRight, Key changeGravity, Key attackKey, Color color);
 
-        // Draw the triangle
-        G2D::drawPolygon(PointList, Color::Cyan, true);
-    }
+    void drawHero() const;
 
-    void turn_left() {
-        direction = 0;
-    }
+    void turn_left();
 
-    void turn_right() {
-        direction = 1;
-    }
+    void turn_right();
 
-    void move_left() {
-        turn_left();
-        posX -= speed;
-    }
+    void move_left();
 
-    void move_right() {
-        turn_right();
-        posX += speed;
-    }
+    void move_right();
 
-    void turn_over() {
-        if (inversed) {
-            posY -= height;
-        } else {
-            posY += height;
-        }
-        inversed = !inversed;
-    }
+    void turn_over();
+
+    bool is_movable_left (GameData &G) const;
+
+    bool is_movable_right (GameData &G) const;
+
+    void change_gravity();
+
+    void fall(GameData & G);
+
+    void movement(GameData &G);
+
+    void attack(Hero &h);
+
+    void drawAttackEffect() const;
+
 
 };
 

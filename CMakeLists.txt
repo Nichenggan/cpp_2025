@@ -31,6 +31,8 @@ add_executable(Gravity_Ninja
         Button.h
         Button.cpp
         hero.h
+        gamedata.h
+        hero.cpp
 )
 
 target_link_libraries(Gravity_Ninja PRIVATE

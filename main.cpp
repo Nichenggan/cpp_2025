@@ -10,42 +10,12 @@
 #include "G2D.h"
 #include "button.h"
 #include "hero.h"
+#include "gamedata.h"
 using namespace std;
 
 // touche P   : mets en pause
 // touche ESC : ferme la fenêtre et quitte le jeu
 
-enum state {
-	MENU,
-	PLAYING,
-	END
-};
-
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//    Données du jeu - structure instanciée dans le main
-
-struct GameData
-{
-	int     idFrame    = 0;
-	int     HeightPix  = 500;          // hauteur de la fenêtre de jeu
-	int     WidthPix   = 1000;          // largeur de la fenêtre de jeu
-	int     score	  = 0;
-	int     PosCeiling   = 400;
-	int	    PosFloor     = 150;
-	state   gameState = MENU;			// state du jeu
-	Button  StartButton = Button(V2(400, 200), V2(200, 50), " Start Game", Color::Blue, Color::White);
-	Button  EndButton  = Button(V2(100, 50), V2(200, 50), " End Game", Color::Red, Color::White);
-	Button  BackButton = Button(V2(400, 100), V2(200, 50), " Back to Menu", Color::Blue, Color::White);
-	Hero    hero = Hero(50, PosCeiling);
-
-	GameData()
-	{
-	}
-
-};
 
 
 
@@ -53,17 +23,7 @@ struct GameData
 //
 //    Fonction de dessin du terrain
 
-void draw_terrain(const GameData &G) {
-	// Draw the ceiling (top boundary)
-	for (int pos = G.PosCeiling + 4; pos >= G.PosCeiling; pos--) {
-		G2D::drawLine(V2(0, pos), V2(G.WidthPix, pos), Color::Blue);
-	}
-	for (int pos = G.PosFloor - 4; pos <= G.PosFloor; pos++) {
-		G2D::drawLine(V2(0, pos), V2(G.WidthPix, pos), Color::White);
-	}
 
-	// Draw the floor (bottom boundary)
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -86,23 +46,25 @@ void render(const GameData & G)
 			break;
 
 		case PLAYING:
-			// Score
-			G2D::drawStringFontMono(V2(50, G.HeightPix - 50), string("Your Score : ") + to_string(G.score), 30, 5, Color::Green);
+			// Health
+			G.draw_health();
 			// Le buton
 			G.EndButton.draw();
 			// Le terrain
-			draw_terrain(G);
+			G.drawTerrain();
 			// Le héros
-			G.hero.drawHero();
+			G.player1.drawHero();
+			G.player2.drawHero();
 
-
+			G.player1.drawAttackEffect();
+			G.player2.drawAttackEffect();
 
 
 			break;
 
 		case END:
 			// Titre en haut
-			G2D::drawStringFontMono(V2(50, G.HeightPix - 100), string("Game Ended, your Score is : "), 50, 5, Color::Red);
+			G2D::drawStringFontMono(V2(50, G.HeightPix - 100), string("Game Ended"), 50, 5, Color::Red);
 			// Le buton
 			G.BackButton.draw();
 			break;
@@ -127,17 +89,10 @@ void render(const GameData & G)
 	G2D::Show();
 }
 
-bool is_movable_left(GameData G) {
-	bool border = (G.hero.posX >= 10) && (G.hero.posX <= G.WidthPix - 10 + G.hero.speed);
 
-	return border;
-}
 
-bool is_movable_right(GameData G) {
-	bool border = (G.hero.posX >= 10 - G.hero.speed) && (G.hero.posX <= G.WidthPix - 10);
 
-	return border;
-}
+
 
 
 	
@@ -164,33 +119,15 @@ void Logic(GameData & G) // appelé 20 fois par seconde
 					G.gameState = END;
 			}
 
-			if (G2D::isKeyPressed(Key::LEFT) && is_movable_left(G)) {
-				G.hero.move_left();
-			}
-			if (G2D::isKeyPressed(Key::RIGHT) && is_movable_right(G)) {
-				G.hero.move_right();
-			}
-			if (G2D::isKeyPressed(Key::V)) {
-				if (G2D::elapsedTimeFromStartSeconds() - G.hero.T0 > 0.5) {
-					G.hero.T0 = G2D::elapsedTimeFromStartSeconds();
-					if(G.hero.inversed) {
-						G.hero.turn_over();
-						G.hero.inversed = false;
-					}
-					else {
-						G.hero.turn_over();
-						G.hero.inversed = true;
-					}
-				}
-			}
-			// Le hero change direction
-			if (G2D::elapsedTimeFromStartSeconds() - G.hero.T0 < 0.5) {
-				if (!G.hero.inversed)
-					G.hero.posY = G.PosCeiling - G.hero.height - (G.PosCeiling - G.hero.height - G.PosFloor) * (G2D::elapsedTimeFromStartSeconds() - G.hero.T0) * 2;
-				else
-					G.hero.posY = G.PosFloor + G.hero.height + (G.PosCeiling - G.hero.height - G.PosFloor) * (G2D::elapsedTimeFromStartSeconds() - G.hero.T0) * 2;
+			G.player1.movement(G);
+			G.player2.movement(G);
+			G.player1.attack(G.player2);
+			G.player2.attack(G.player1);
 
+			if (G.player1.health <= 0 || G.player2.health <= 0) {
+				G.gameState = END;
 			}
+
 			break;
 
 		case END:

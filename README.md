@@ -71,4 +71,6 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 - **Version 1.0** - Creation of the git repository and initial commit.
 - **Version 1.1** - Added a button and updated the project structure.
+- **Version 1.2** - Added a hero and terrain
+- **Version 1.3** - Added Player 2 and allowed to attack
 
