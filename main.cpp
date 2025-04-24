@@ -39,17 +39,40 @@ void render(const GameData & G)
 
 	switch (G.gameState) {
 		case MENU:
+			G.draw_context_menu();
 			// Titre en haut
-			G2D::drawStringFontMono(V2(250, G.HeightPix - 100), string("Gravity Ninja"), 50, 5, Color::Blue);
+			G2D::drawStringFontMono(V2(250, G.HeightPix - 100), string("Gravity Ninja"), 50, 6, Color::White);
 			// Le buton
-			G.StartButton.draw();
-			break;
+			G2D::drawStringFontMono(V2(300, G.HeightPix - 250), string("Press Enter to start"), 25, 2, Color::White);
+
+
+			//Instruction
+			G2D::drawStringFontMono(V2(100, 150), string("Player1 -> Press 'A' 'D' to move, 'C' to Change Gravity, 'G' to Attack"), 15, 1, Color::White);
+			G2D::drawStringFontMono(V2(100, 120), string("Player2 -> Press '<-' '->' to move, 'K' to Change Gravity, 'L' to Attack"), 15, 1, Color::White);
+
+		break;
+
+		case CHOOSE:
+			G.draw_context_combat();
+			G.player1.drawPic(V2(320, 270));
+			G.player2.drawPic(V2(570, 270));
+			G.cursor.draw();
+			G2D::drawStringFontMono(V2(300, 250), string("Player 1"), 25, 2, Color::White);
+			G2D::drawStringFontMono(V2(550, 250), string("Player 2"), 25, 2, Color::White);
+
+			G2D::drawStringFontMono(V2(200, 200), string("Hero A"), 20, 2, Color::White);
+			G2D::drawStringFontMono(V2(450, 200), string("Hero B"), 20, 2, Color::White);
+			G2D::drawStringFontMono(V2(700, 200), string("Hero C"), 20, 2, Color::White);
+			G.drawHeroAttributes();
+
+		break;
+
 
 		case PLAYING:
+			G.draw_context_combat();
 			// Health
 			G.draw_health();
 			// Le buton
-			G.EndButton.draw();
 			// Le terrain
 			G.drawTerrain();
 			// Le héros
@@ -66,7 +89,6 @@ void render(const GameData & G)
 			// Titre en haut
 			G2D::drawStringFontMono(V2(50, G.HeightPix - 100), string("Game Ended"), 50, 5, Color::Red);
 			// Le buton
-			G.BackButton.draw();
 			break;
 	}
 	 
@@ -104,19 +126,53 @@ void render(const GameData & G)
 void Logic(GameData & G) // appelé 20 fois par seconde
 {
 	G.idFrame += 1;
-	int mouseX, mouseY;
-	G2D::getMousePos(mouseX, mouseY);
+
 	switch (G.gameState) {
 
 		case MENU:
-			if (G.StartButton.isClicked(mouseX, mouseY) ){
-					G.gameState = PLAYING;
+			if (G2D::keyHasBeenHit(Key::ENTER)){
+				G.gameState = CHOOSE;
 			}
 			break;
 
+		case CHOOSE:
+			static int cursorIndex = 0; // Tracks the current cursor position (0 = Hero A, 1 = Hero B, 2 = Hero C)
+			static int heroSelectionCount = 0; // Tracks the number of hero selections
+			static bool keyReleased = true;
+			// Hero selection logic
+			if (keyReleased && G2D::isKeyPressed(Key::LEFT)) {
+				cursorIndex = (cursorIndex + 2) % 3; // Move left (wrap around)
+				G.cursor.pos = (cursorIndex == 0) ? G.heroApos - V2(10, -20) : (cursorIndex == 1) ? G.heroBPos- V2(10, -20) : G.heroCPos- V2(10, -20);
+				keyReleased = false;
+			} else if (keyReleased && G2D::isKeyPressed(Key::RIGHT)) {
+				cursorIndex = (cursorIndex + 1) % 3; // Move right (wrap around)
+				G.cursor.pos = (cursorIndex == 0) ? G.heroApos- V2(10, -20) : (cursorIndex == 1) ? G.heroBPos- V2(10, -20) : G.heroCPos- V2(10, -20);
+				keyReleased = false;
+			}
+			if (!G2D::isKeyPressed(Key::LEFT) && !G2D::isKeyPressed(Key::RIGHT)) {
+				keyReleased = true;
+			}
+
+
+			// Handle hero selection
+			if (G2D::keyHasBeenHit(Key::ENTER)) {
+				if (heroSelectionCount == 0) {
+					G.player1 = (cursorIndex == 0) ? G.A : (cursorIndex == 1) ? G.B : G.C;
+					heroSelectionCount++;
+				} else if (heroSelectionCount == 1) {
+					G.player2 = (cursorIndex == 0) ? G.A : (cursorIndex == 1) ? G.B : G.C;
+					heroSelectionCount++;
+				}
+			}
+
+			if (heroSelectionCount >= 2) {
+				G.gameState = PLAYING;
+			}
+		break;
+
 		case PLAYING:
-			if (G.EndButton.isClicked(mouseX, mouseY) ){
-					G.gameState = END;
+			if (G2D::keyHasBeenHit(Key::ENTER) ){
+				G.gameState = END;
 			}
 
 			G.player1.movement(G);
@@ -131,7 +187,7 @@ void Logic(GameData & G) // appelé 20 fois par seconde
 			break;
 
 		case END:
-			if (G.BackButton.isClicked(mouseX, mouseY) ){
+			if (G2D::isKeyPressed(Key::ENTER) ){
 				G.gameState = MENU;
 			}
 			break;

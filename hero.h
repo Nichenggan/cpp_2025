@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "G2D.h"
+#include <string>
 
 struct GameData;
 
@@ -16,16 +17,18 @@ struct Hero {
     int health = 100;
     double T_inverse = -1;
     double T_attack = -1;
-    int attackRange = 15;
+    int attackRange = 80;
+    int attackDamage = 10;
     Key moveLeft = Key::LEFT;
     Key moveRight = Key::RIGHT;
     Key changeGravity = Key::N;
     Key attackKey = Key::M;
     Color color = Color::Cyan;
+    std::string texture;
 
 
 
-    Hero(int x, int y, int direction, bool inversed, int speed, int height, int attackRange, Key moveLeft, Key moveRight, Key changeGravity, Key attackKey, Color color);
+    Hero(int x, int y, int direction, bool inversed, int speed, int height, int attackRange, int attackDamage, Key moveLeft, Key moveRight, Key changeGravity, Key attackKey, Color color, std::string texture);
 
     void drawHero() const;
 
@@ -53,6 +56,7 @@ struct Hero {
 
     void drawAttackEffect() const;
 
+    void drawPic(V2 pos) const;
 
 };
 

@@ -84,8 +84,8 @@ build CMakeFiles/Gravity_Ninja.dir/G2DMouse.cpp.o: CXX_COMPILER__Gravity_Ninja_u
   OBJECT_DIR = CMakeFiles/Gravity_Ninja.dir
   OBJECT_FILE_DIR = CMakeFiles/Gravity_Ninja.dir
 
-build CMakeFiles/Gravity_Ninja.dir/G2DPPM.cpp.o: CXX_COMPILER__Gravity_Ninja_unscanned_Debug /Users/aminoc/Desktop/personal/Matieres/cpp/cpp_2025/G2DPPM.cpp || cmake_object_order_depends_target_Gravity_Ninja
-  DEP_FILE = CMakeFiles/Gravity_Ninja.dir/G2DPPM.cpp.o.d
+build CMakeFiles/Gravity_Ninja.dir/G2DPNGreader.cpp.o: CXX_COMPILER__Gravity_Ninja_unscanned_Debug /Users/aminoc/Desktop/personal/Matieres/cpp/cpp_2025/G2DPNGreader.cpp || cmake_object_order_depends_target_Gravity_Ninja
+  DEP_FILE = CMakeFiles/Gravity_Ninja.dir/G2DPNGreader.cpp.o.d
   FLAGS = -w -g -std=gnu++11 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/aminoc/Desktop/personal/Matieres/cpp/cpp_2025 -isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/GLUT.framework/Headers -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks
   OBJECT_DIR = CMakeFiles/Gravity_Ninja.dir
@@ -119,6 +119,13 @@ build CMakeFiles/Gravity_Ninja.dir/hero.cpp.o: CXX_COMPILER__Gravity_Ninja_unsca
   OBJECT_DIR = CMakeFiles/Gravity_Ninja.dir
   OBJECT_FILE_DIR = CMakeFiles/Gravity_Ninja.dir
 
+build CMakeFiles/Gravity_Ninja.dir/lodepng.cpp.o: CXX_COMPILER__Gravity_Ninja_unscanned_Debug /Users/aminoc/Desktop/personal/Matieres/cpp/cpp_2025/lodepng.cpp || cmake_object_order_depends_target_Gravity_Ninja
+  DEP_FILE = CMakeFiles/Gravity_Ninja.dir/lodepng.cpp.o.d
+  FLAGS = -w -g -std=gnu++11 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/aminoc/Desktop/personal/Matieres/cpp/cpp_2025 -isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/GLUT.framework/Headers -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks
+  OBJECT_DIR = CMakeFiles/Gravity_Ninja.dir
+  OBJECT_FILE_DIR = CMakeFiles/Gravity_Ninja.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Gravity_Ninja
@@ -127,7 +134,7 @@ build CMakeFiles/Gravity_Ninja.dir/hero.cpp.o: CXX_COMPILER__Gravity_Ninja_unsca
 #############################################
 # Link the executable Gravity_Ninja
 
-build Gravity_Ninja: CXX_EXECUTABLE_LINKER__Gravity_Ninja_Debug CMakeFiles/Gravity_Ninja.dir/main.cpp.o CMakeFiles/Gravity_Ninja.dir/G2DColor.cpp.o CMakeFiles/Gravity_Ninja.dir/G2DKey.cpp.o CMakeFiles/Gravity_Ninja.dir/G2DMain.cpp.o CMakeFiles/Gravity_Ninja.dir/G2DMouse.cpp.o CMakeFiles/Gravity_Ninja.dir/G2DPPM.cpp.o CMakeFiles/Gravity_Ninja.dir/G2DX.cpp.o CMakeFiles/Gravity_Ninja.dir/V2.cpp.o CMakeFiles/Gravity_Ninja.dir/Button.cpp.o CMakeFiles/Gravity_Ninja.dir/hero.cpp.o | /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/GLUT.framework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/OpenGL.framework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/Cocoa.framework
+build Gravity_Ninja: CXX_EXECUTABLE_LINKER__Gravity_Ninja_Debug CMakeFiles/Gravity_Ninja.dir/main.cpp.o CMakeFiles/Gravity_Ninja.dir/G2DColor.cpp.o CMakeFiles/Gravity_Ninja.dir/G2DKey.cpp.o CMakeFiles/Gravity_Ninja.dir/G2DMain.cpp.o CMakeFiles/Gravity_Ninja.dir/G2DMouse.cpp.o CMakeFiles/Gravity_Ninja.dir/G2DPNGreader.cpp.o CMakeFiles/Gravity_Ninja.dir/G2DX.cpp.o CMakeFiles/Gravity_Ninja.dir/V2.cpp.o CMakeFiles/Gravity_Ninja.dir/Button.cpp.o CMakeFiles/Gravity_Ninja.dir/hero.cpp.o CMakeFiles/Gravity_Ninja.dir/lodepng.cpp.o | /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/GLUT.framework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/OpenGL.framework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/Cocoa.framework
   FLAGS = -w -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk
   LINK_LIBRARIES = -framework GLUT  -framework OpenGL  -framework Cocoa
   OBJECT_DIR = CMakeFiles/Gravity_Ninja.dir

@@ -15,6 +15,7 @@ public:
     std::string label;
     Color color;
     Color textColor;
+    bool isPressed = false;
 
     Button(V2 pos, V2 sz, std::string lbl, Color col, Color txtCol);
 

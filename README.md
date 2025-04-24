@@ -52,12 +52,6 @@ To build and run the game, you need to have CMake, OpenGL, and GLUT installed on
 - **OpenGL**: Used for rendering graphics.
 - **GLUT**: Used for window management and input handling.
 
-## File Structure
-
-- `Eleve.cpp`: Main game logic and rendering functions.
-- `G2D.h`, `G2DColor.cpp`, `G2Dfull.h`, `G2DKey.cpp`, `G2DMain.cpp`, `G2DMouse.cpp`, `G2DPPM.cpp`, `G2DX.cpp`: Graphics and utility functions.
-- `V2.cpp`, `V2.h`: Vector math utilities.
-- `CMakeLists.txt`: Build configuration file.
 
 ## License
 
@@ -73,4 +67,5 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 - **Version 1.1** - Added a button and updated the project structure.
 - **Version 1.2** - Added a hero and terrain
 - **Version 1.3** - Added Player 2 and allowed to attack
+- **Version 1.4** - Added a context, and a menu to choose hero
 

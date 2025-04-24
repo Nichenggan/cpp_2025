@@ -22,7 +22,7 @@ add_executable(Gravity_Ninja
         G2DKey.cpp
         G2DMain.cpp
         G2DMouse.cpp
-        G2DPPM.cpp
+        G2DPNGreader.cpp
         G2DX.cpp
         glut.h
         GlutImport.h
@@ -33,6 +33,8 @@ add_executable(Gravity_Ninja
         hero.h
         gamedata.h
         hero.cpp
+        lodepng.cpp
+        lodepng.h
 )
 
 target_link_libraries(Gravity_Ninja PRIVATE

@@ -6,8 +6,8 @@
 
 
 
-Hero::Hero(int x, int y, int direction, bool inversed, int speed, int height, int attackRange, Key moveLeft, Key moveRight, Key changeGravity, Key attackKey, Color color) :
-        posX(x), posY(y), direction(direction), inversed(inversed), speed(speed), height(height), attackRange(attackRange), moveLeft(moveLeft), moveRight(moveRight), changeGravity(changeGravity), attackKey(attackKey), color(color) {}
+Hero::Hero(int x, int y, int direction, bool inversed, int speed, int height, int attackRange, int attackDamage, Key moveLeft, Key moveRight, Key changeGravity, Key attackKey, Color color, std::string texture) :
+        posX(x), posY(y), direction(direction), inversed(inversed), speed(speed), height(height), attackRange(attackRange), attackDamage(attackDamage) ,moveLeft(moveLeft), moveRight(moveRight), changeGravity(changeGravity), attackKey(attackKey), color(color), texture(texture) {}
 
 void Hero::drawHero() const {
     G2D::drawCircle(V2(this->posX, this->posY), 5, Color::Green, true);
@@ -113,16 +113,21 @@ void Hero::movement(GameData &G) {
 void Hero::attack(Hero &h){
     if (G2D::isKeyPressed(this->attackKey) && (G2D::elapsedTimeFromStartSeconds() - this->T_attack > 0.5)) {
         this->T_attack = G2D::elapsedTimeFromStartSeconds();
+        bool inRange;
+        bool inHeight;
 
-        bool inRange = false;
 
-        if (direction == 1) {
-            inRange = (h.posX >= posX && h.posX <= posX + attackRange);
+        if (this->direction == 1) {
+            inRange = (h.posX >= this->posX && h.posX <= this->posX + this->attackRange);
         } else {
-            inRange = (h.posX <= posX && h.posX >= posX - attackRange);
+            inRange = (h.posX <= this->posX && h.posX >= this->posX - this->attackRange);
         }
 
-        bool inHeight = (h.posY >= posY - height && h.posY <= posY + height);
+        if (this->inversed) {
+            inHeight = (h.posY <= this->posY + 10) && (h.posY >= this->posY - this->height);
+        } else {
+            inHeight = (h.posY >= this->posY - 10) && (h.posY <= this->posY + this->height);
+        }
 
         if (inRange && inHeight) {
             h.health -= 10;
@@ -139,6 +144,20 @@ void Hero::drawAttackEffect() const {
         G2D::drawCircle(V2(this->posX, this->posY), 10, Color::Red, true);
     }
 }
+
+void Hero::drawPic(V2 pos) const {
+    static int Texture = -1; // Static variable to store the texture ID
+    if (Texture == -1) { // Load the texture only if it hasn't been loaded yet
+        Texture = G2D::ExtractTextureFromPNG("../texture/img.png", Transparency::None);
+        if (Texture < 0) {
+            std::cerr << "Failed to load texture: ../texture/img.png" << std::endl;
+            return;
+        }
+    }
+    G2D::drawRectWithTexture(Texture, pos, V2(100, 200), 0);
+}
+
+
 
 
 
