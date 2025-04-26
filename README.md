@@ -68,4 +68,6 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 - **Version 1.2** - Added a hero and terrain
 - **Version 1.3** - Added Player 2 and allowed to attack
 - **Version 1.4** - Added a context, and a menu to choose hero
+- **Version 1.5** - Updated hero photo, and movement
+- **Version 1.6** - Added attackeffect
 

@@ -25,10 +25,14 @@ struct Hero {
     Key attackKey = Key::M;
     Color color = Color::Cyan;
     std::string texture;
+    std::string attackEffectTexture;
+    int TextureCode = -1;
+    int attackEffectTextureCode = -1;
 
 
 
-    Hero(int x, int y, int direction, bool inversed, int speed, int height, int attackRange, int attackDamage, Key moveLeft, Key moveRight, Key changeGravity, Key attackKey, Color color, std::string texture);
+
+    Hero(int x, int y, int direction, bool inversed, int speed, int height, int attackRange, int attackDamage, Key moveLeft, Key moveRight, Key changeGravity, Key attackKey, Color color, std::string texture, std::string attackEffectTexture);
 
     void drawHero() const;
 
@@ -56,7 +60,11 @@ struct Hero {
 
     void drawAttackEffect() const;
 
-    void drawPic(V2 pos) const;
+    void drawPic(V2 pos) ;
+
+    void initAsPlayer1(GameData &G);
+
+    void initAsPlayer2(GameData &G);
 
 };
 

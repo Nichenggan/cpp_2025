@@ -11,6 +11,8 @@
 #include "button.h"
 #include "hero.h"
 #include "gamedata.h"
+
+
 using namespace std;
 
 // touche P   : mets en pause
@@ -32,7 +34,7 @@ using namespace std;
 
 
 
-void render(const GameData & G)
+void render( GameData & G)
 {
     // fond noir	 
 	G2D::clearScreen(Color::Black);
@@ -65,6 +67,13 @@ void render(const GameData & G)
 			G2D::drawStringFontMono(V2(700, 200), string("Hero C"), 20, 2, Color::White);
 			G.drawHeroAttributes();
 
+			G.A.drawPic(G.heroApos - V2(0, 150));
+			G.B.drawPic(G.heroBPos - V2(0, 150));
+			G.C.drawPic(G.heroCPos - V2(0, 150));
+
+			G2D::drawStringFontMono(V2(20, 450), string("Use Enter to choose Hero, use G to start game"), 15, 2, Color::White);
+
+
 		break;
 
 
@@ -72,15 +81,12 @@ void render(const GameData & G)
 			G.draw_context_combat();
 			// Health
 			G.draw_health();
-			// Le buton
-			// Le terrain
-			G.drawTerrain();
+
+
 			// Le héros
 			G.player1.drawHero();
 			G.player2.drawHero();
 
-			G.player1.drawAttackEffect();
-			G.player2.drawAttackEffect();
 
 
 			break;
@@ -88,6 +94,15 @@ void render(const GameData & G)
 		case END:
 			// Titre en haut
 			G2D::drawStringFontMono(V2(50, G.HeightPix - 100), string("Game Ended"), 50, 5, Color::Red);
+			if (G.player1.health <= 0) {
+				G2D::drawStringFontMono(V2(50, G.HeightPix - 200), string("Player 2 wins!"), 50, 5, Color::Red);
+			} else {
+				G2D::drawStringFontMono(V2(50, G.HeightPix - 200), string("Player 1 wins!"), 50, 5, Color::Red);
+			}
+
+			G2D::drawStringFontMono(V2(50, G.HeightPix - 400), string("Press ENTER to return to main menu"), 10, 1, Color::White);
+
+
 			// Le buton
 			break;
 	}
@@ -159,13 +174,18 @@ void Logic(GameData & G) // appelé 20 fois par seconde
 				if (heroSelectionCount == 0) {
 					G.player1 = (cursorIndex == 0) ? G.A : (cursorIndex == 1) ? G.B : G.C;
 					heroSelectionCount++;
+					G.player1.initAsPlayer1(G);
+
 				} else if (heroSelectionCount == 1) {
 					G.player2 = (cursorIndex == 0) ? G.A : (cursorIndex == 1) ? G.B : G.C;
+					G.player2.initAsPlayer2(G);
 					heroSelectionCount++;
+
 				}
 			}
 
-			if (heroSelectionCount >= 2) {
+
+			if (heroSelectionCount >= 2 && G2D::isKeyPressed(Key::G)) {
 				G.gameState = PLAYING;
 			}
 		break;
@@ -174,6 +194,8 @@ void Logic(GameData & G) // appelé 20 fois par seconde
 			if (G2D::keyHasBeenHit(Key::ENTER) ){
 				G.gameState = END;
 			}
+
+
 
 			G.player1.movement(G);
 			G.player2.movement(G);
@@ -187,8 +209,10 @@ void Logic(GameData & G) // appelé 20 fois par seconde
 			break;
 
 		case END:
-			if (G2D::isKeyPressed(Key::ENTER) ){
+			if (G2D::keyHasBeenHit(Key::ENTER) ){
 				G.gameState = MENU;
+				G.reinitialise();
+				heroSelectionCount = 0;
 			}
 			break;
 

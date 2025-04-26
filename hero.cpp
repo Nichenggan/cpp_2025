@@ -6,33 +6,32 @@
 
 
 
-Hero::Hero(int x, int y, int direction, bool inversed, int speed, int height, int attackRange, int attackDamage, Key moveLeft, Key moveRight, Key changeGravity, Key attackKey, Color color, std::string texture) :
-        posX(x), posY(y), direction(direction), inversed(inversed), speed(speed), height(height), attackRange(attackRange), attackDamage(attackDamage) ,moveLeft(moveLeft), moveRight(moveRight), changeGravity(changeGravity), attackKey(attackKey), color(color), texture(texture) {}
+Hero::Hero(int x, int y, int direction, bool inversed, int speed, int height, int attackRange, int attackDamage, Key moveLeft, Key moveRight, Key changeGravity, Key attackKey, Color color, std::string texture, std::string attackEffectTexture) :
+        posX(x), posY(y), direction(direction), inversed(inversed), speed(speed), height(height), attackRange(attackRange), attackDamage(attackDamage) ,moveLeft(moveLeft), moveRight(moveRight), changeGravity(changeGravity), attackKey(attackKey), color(color), texture(texture), attackEffectTexture(attackEffectTexture) {}
 
 void Hero::drawHero() const {
-    G2D::drawCircle(V2(this->posX, this->posY), 5, Color::Green, true);
-    // Calculate the vertices of the equilateral triangle
-    std::vector<V2> PointList;
-    int halfBase = this->height / 2; // Half the base length of the trian
-    if (this->direction == 1 && this->inversed == true) { // Facing right
-        PointList.push_back(V2(this->posX, this->posY)); // Top vertex
-        PointList.push_back(V2(this->posX, this->posY - this->height)); // Bottom-left vertex
-        PointList.push_back(V2(this->posX + halfBase, this->posY - this->height/2)); // Bottom-right vertex
-    } else if (this->direction == 0 && this->inversed == true) { // Facing left
-        PointList.push_back(V2(this->posX, this->posY)); // Top vertex
-        PointList.push_back(V2(this->posX, this->posY - this->height)); // Bottom-right vertex
-        PointList.push_back(V2(this->posX - halfBase, this->posY - this->height/2)); // Bottom-left vertex
-    } else if (this->direction == 1 && this->inversed == false) {
-        PointList.push_back(V2(this->posX, this->posY)); // buttom vertex
-        PointList.push_back(V2(this->posX, this->posY + this->height)); // Bottom-right vertex
-        PointList.push_back(V2(this->posX + halfBase, this->posY + this->height/2));
+    if ((G2D::elapsedTimeFromStartSeconds() - this->T_attack < 0.2)) {
+        if (this->direction == 1 && this->inversed == true) { // Facing right
+            G2D::drawRectWithTexture(this->attackEffectTextureCode, V2(this->posX - 30, this->posY - this->height), V2(60, this->height), 180);
+        } else if (this->direction == 0 && this->inversed == true) { // Facing left
+            G2D::drawRectWithTexture(this->attackEffectTextureCode, V2(this->posX + 30, this->posY - this->height), V2(-60, this->height), 180);
+        } else if (this->direction == 1 && this->inversed == false) {
+            G2D::drawRectWithTexture(this->attackEffectTextureCode, V2(this->posX - 30, this->posY), V2(60, this->height), 0);
+        } else {
+            G2D::drawRectWithTexture(this->attackEffectTextureCode, V2(this->posX + 30, this->posY), V2(-60, this->height), 0);
+        }
     } else {
-        PointList.push_back(V2(this->posX, this->posY)); // buttom vertex
-        PointList.push_back(V2(this->posX, this->posY + this->height)); // Bottom-right vertex
-        PointList.push_back(V2(this->posX - halfBase, this->posY + this->height/2));
+        if (this->direction == 1 && this->inversed == true) { // Facing right
+            G2D::drawRectWithTexture(this->TextureCode, V2(this->posX - 30, this->posY - this->height), V2(60, this->height), 180);
+        } else if (this->direction == 0 && this->inversed == true) { // Facing left
+            G2D::drawRectWithTexture(this->TextureCode, V2(this->posX + 30, this->posY - this->height), V2(-60, this->height), 180);
+        } else if (this->direction == 1 && this->inversed == false) {
+            G2D::drawRectWithTexture(this->TextureCode, V2(this->posX - 30, this->posY), V2(60, this->height), 0);
+        } else {
+            G2D::drawRectWithTexture(this->TextureCode, V2(this->posX + 30, this->posY), V2(-60, this->height), 0);
+        }
     }
-        // Draw the triangle
-        G2D::drawPolygon(PointList, this->color, true);
+
 
 }
 
@@ -93,6 +92,8 @@ void Hero::fall(GameData & G) {
             this->posY = G.PosCeiling - this->height - (G.PosCeiling - this->height - G.PosFloor) * (G2D::elapsedTimeFromStartSeconds() - this->T_inverse) * 2;
         else
             this->posY = G.PosFloor + this->height + (G.PosCeiling - this->height - G.PosFloor) * (G2D::elapsedTimeFromStartSeconds() - this->T_inverse) * 2;
+    } else {
+        this->posY = this->inversed ? G.PosCeiling : G.PosFloor;
     }
 }
 
@@ -111,26 +112,26 @@ void Hero::movement(GameData &G) {
 }
 
 void Hero::attack(Hero &h){
-    if (G2D::isKeyPressed(this->attackKey) && (G2D::elapsedTimeFromStartSeconds() - this->T_attack > 0.5)) {
+    if (G2D::isKeyPressed(this->attackKey) && (G2D::elapsedTimeFromStartSeconds() - this->T_attack > 1)) {
         this->T_attack = G2D::elapsedTimeFromStartSeconds();
         bool inRange;
         bool inHeight;
 
 
         if (this->direction == 1) {
-            inRange = (h.posX >= this->posX && h.posX <= this->posX + this->attackRange);
+            inRange = (h.posX >= this->posX - this->attackRange/2 && h.posX <= this->posX + this->attackRange);
         } else {
-            inRange = (h.posX <= this->posX && h.posX >= this->posX - this->attackRange);
+            inRange = (h.posX <= this->posX + this->attackRange/2 && h.posX >= this->posX - this->attackRange);
         }
 
         if (this->inversed) {
-            inHeight = (h.posY <= this->posY + 10) && (h.posY >= this->posY - this->height);
+            inHeight = (h.posY <= this->posY + this->height/2) && (h.posY >= this->posY - this->height);
         } else {
-            inHeight = (h.posY >= this->posY - 10) && (h.posY <= this->posY + this->height);
+            inHeight = (h.posY >= this->posY - this->height/2) && (h.posY <= this->posY + this->height);
         }
 
         if (inRange && inHeight) {
-            h.health -= 10;
+            h.health -= this->attackDamage;
             if (h.health < 0) {
                 h.health = 0;
             }
@@ -145,19 +146,42 @@ void Hero::drawAttackEffect() const {
     }
 }
 
-void Hero::drawPic(V2 pos) const {
-    static int Texture = -1; // Static variable to store the texture ID
-    if (Texture == -1) { // Load the texture only if it hasn't been loaded yet
-        Texture = G2D::ExtractTextureFromPNG("../texture/img.png", Transparency::None);
-        if (Texture < 0) {
-            std::cerr << "Failed to load texture: ../texture/img.png" << std::endl;
+void Hero::drawPic(V2 pos) {
+    if (this->TextureCode == -1) { // Load the texture only if it hasn't been loaded yet
+        this->TextureCode = G2D::ExtractTextureFromPNG(this->texture, Transparency::None);
+        if (this->TextureCode < 0) {
+            std::cerr << "Failed to load texture" << std::endl;
             return;
         }
     }
-    G2D::drawRectWithTexture(Texture, pos, V2(100, 200), 0);
+    G2D::drawRectWithTexture(this->TextureCode, pos, V2(60, this->height), 0);
 }
 
+void Hero::initAsPlayer1(GameData &G) {
+    this->posX = 50;
+    this->posY = G.PosCeiling;
+    this->direction = 1;
+    this->inversed = true;
+    this->moveLeft = Key::A;
+    this->moveRight = Key::D;
+    this->changeGravity = Key::C;
+    this->attackKey = Key::V;
+    this->color = Color::Cyan;
+    this->attackEffectTextureCode = G2D::ExtractTextureFromPNG(this->attackEffectTexture, Transparency::None);
+}
 
+void Hero::initAsPlayer2(GameData &G) {
+    this->posX = G.WidthPix - 50;
+    this->posY = G.PosFloor;
+    this->direction = 0;
+    this->inversed = false;
+    this->moveLeft = Key::LEFT;
+    this->moveRight = Key::RIGHT;
+    this->changeGravity = Key::K;
+    this->attackKey = Key::L;
+    this->color = Color::Red;
+    this->attackEffectTextureCode = G2D::ExtractTextureFromPNG(this->attackEffectTexture, Transparency::None);
+}
 
 
 

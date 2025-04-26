@@ -35,23 +35,26 @@ struct GameData
     int     HeightPix  = 500;          // hauteur de la fenêtre de jeu
     int     WidthPix   = 1000;          // largeur de la fenêtre de jeu
     int     score	  = 0;
-    int     PosCeiling   = 400;
-    int	    PosFloor     = 150;
+    int     PosCeiling   = 390;
+    int	    PosFloor     = 100;
 
     V2 heroApos = V2(200, 180);
     V2 heroBPos = V2(450, 180);
     V2 heroCPos = V2(700, 180);
+
+    V2 player1pos = V2(50, PosCeiling);
+    V2 player2pos = V2(950, PosFloor);
 
     cursur cursor = cursur(heroApos - V2(10, -20));
 
 
     state   gameState = MENU;			// state du jeu
 
-    Hero    player1 = Hero(50, PosCeiling, 1, true, 5, 50, 40, 10, Key::A, Key::D, Key::C, Key::V, Color::Cyan);
-    Hero	player2 = Hero(950, PosFloor, 0, false, 5, 50, 40, 10,Key::LEFT, Key::RIGHT, Key::K, Key::L, Color::Red);
-    Hero    A = Hero(0, 0, 0, true, 5, 50, 40, 10, Key::Unknown, Key::Unknown, Key::Unknown, Key::Unknown, Color::Black);
-    Hero    B = Hero(0, 0, 0, true, 10, 80, 20, 5, Key::Unknown, Key::Unknown, Key::Unknown, Key::Unknown, Color::Black);
-    Hero    C = Hero(0, 0, 0, true, 7, 60, 30, 8, Key::Unknown, Key::Unknown, Key::Unknown, Key::Unknown, Color::Black);
+    Hero    player1 = Hero(50, PosCeiling, 1, true, 5, 100, 40, 10, Key::A, Key::D, Key::C, Key::V, Color::Cyan, "../texture/choose.png", "../texture/choose.png");
+    Hero	player2 = Hero(950, PosFloor, 0, false, 5, 100, 40, 10,Key::LEFT, Key::RIGHT, Key::K, Key::L, Color::Red, "../texture/choose.png", "../texture/choose.png");
+    Hero    A = Hero(0, 0, 0, true, 8, 60, 40, 10, Key::Unknown, Key::Unknown, Key::Unknown, Key::Unknown, Color::Black,"../texture/Ninja1.png", "../texture/Ninja1_att.png");
+    Hero    B = Hero(0, 0, 0, true, 5, 80, 60, 15, Key::Unknown, Key::Unknown, Key::Unknown, Key::Unknown, Color::Black, "../texture/Ninja2.png", "../texture/Ninja2_att.png");
+    Hero    C = Hero(0, 0, 0, true, 12, 40, 25, 15, Key::Unknown, Key::Unknown, Key::Unknown, Key::Unknown, Color::Black, "../texture/Ninja3.png", "../texture/Ninja3_att.png");
 
 
 
@@ -124,23 +127,31 @@ struct GameData
 
 
         // Draw attributes for Hero A
-        G2D::drawRectangle(this->heroApos, V2(barWidth * A.height / 100, barHeight), Color::Green, true); // Height
+        G2D::drawRectangle(this->heroApos, V2(barWidth * A.height / 150, barHeight), Color::Green, true); // Height
         G2D::drawRectangle(this->heroApos - V2(0, spacing), V2(barWidth * A.attackDamage / 50, barHeight), Color::Red, true); // Attack Damage
-        G2D::drawRectangle(this->heroApos - V2(0, spacing * 2), V2(barWidth * A.speed / 20, barHeight), Color::Blue, true); // Speed
-        G2D::drawRectangle(this->heroApos - V2(0, spacing * 3), V2(barWidth * A.attackRange / 100, barHeight), Color::Yellow, true); // Attack Range
+        G2D::drawRectangle(this->heroApos - V2(0, spacing * 2), V2(barWidth * A.speed / 20, barHeight), Color::Cyan, true); // Speed
+        G2D::drawRectangle(this->heroApos - V2(0, spacing * 3), V2(barWidth * A.attackRange / 200, barHeight), Color::Yellow, true); // Attack Range
 
         // Draw attributes for Hero B
-        G2D::drawRectangle(this->heroBPos, V2(barWidth * B.height / 100, barHeight), Color::Green, true); // Height
+        G2D::drawRectangle(this->heroBPos, V2(barWidth * B.height / 150, barHeight), Color::Green, true); // Height
         G2D::drawRectangle(this->heroBPos - V2(0, spacing), V2(barWidth * B.attackDamage / 50, barHeight), Color::Red, true); // Attack Damage
-        G2D::drawRectangle(this->heroBPos - V2(0, spacing * 2), V2(barWidth * B.speed / 20, barHeight), Color::Blue, true); // Speed
-        G2D::drawRectangle(this->heroBPos - V2(0, spacing * 3), V2(barWidth * B.attackRange / 100, barHeight), Color::Yellow, true); // Attack Range
+        G2D::drawRectangle(this->heroBPos - V2(0, spacing * 2), V2(barWidth * B.speed / 20, barHeight), Color::Cyan, true); // Speed
+        G2D::drawRectangle(this->heroBPos - V2(0, spacing * 3), V2(barWidth * B.attackRange / 200, barHeight), Color::Yellow, true); // Attack Range
 
         // Draw attributes for Hero C
-        G2D::drawRectangle(this->heroCPos, V2(barWidth * C.height / 100, barHeight), Color::Green, true); // Height
+        G2D::drawRectangle(this->heroCPos, V2(barWidth * C.height / 150, barHeight), Color::Green, true); // Height
         G2D::drawRectangle(this->heroCPos - V2(0, spacing), V2(barWidth * C.attackDamage / 50, barHeight), Color::Red, true); // Attack Damage
-        G2D::drawRectangle(this->heroCPos - V2(0, spacing * 2), V2(barWidth * C.speed / 20, barHeight), Color::Blue, true); // Speed
-        G2D::drawRectangle(this->heroCPos - V2(0, spacing * 3), V2(barWidth * C.attackRange / 100, barHeight), Color::Yellow, true); // Attack Range
+        G2D::drawRectangle(this->heroCPos - V2(0, spacing * 2), V2(barWidth * C.speed / 20, barHeight), Color::Cyan, true); // Speed
+        G2D::drawRectangle(this->heroCPos - V2(0, spacing * 3), V2(barWidth * C.attackRange / 200, barHeight), Color::Yellow, true); // Attack Range
+    }
+
+    void reinitialise() {
+        this->player1 = Hero(50, PosCeiling, 1, true, 5, 100, 40, 10, Key::A, Key::D, Key::C, Key::V, Color::Cyan, "../texture/choose.png", "../texture/choose.png");
+        this->player2 = Hero(50, PosCeiling, 1, true, 5, 100, 40, 10, Key::A, Key::D, Key::C, Key::V, Color::Cyan, "../texture/choose.png", "../texture/choose.png");
+
     }
 
 };
+
+
 #endif //GAMEDATA_H

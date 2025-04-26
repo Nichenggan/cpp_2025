@@ -46,7 +46,7 @@ void G2D::initWindow(V2 WindowSize, V2 WindowStartPos, std::string name)
 	InitColors();
 }
 
-// détecte un changement de taille de la fenêtre et remet la taille initiale
+// dï¿½tecte un changement de taille de la fenï¿½tre et remet la taille initiale
 void reshape(int w, int h)   
 {
 	glutReshapeWindow(Wwidth, Wheight);
@@ -62,7 +62,7 @@ void reshape(int w, int h)
 
 
 void(*_LogicCallBack)(GameData & G);
-void(*_RenderCallBack)(const GameData & G);
+void(*_RenderCallBack)( GameData & G);
 GameData * myGameData;
 int _nbCalltoLogicPerSec = 10;
 
@@ -151,7 +151,7 @@ void OPENGLRender()
 
 
 
-void G2D::Run(void logic(GameData & G), void Render(const GameData & G), GameData & G,int nbCalltoLogicPerSec,bool HideCursor)
+void G2D::Run(void logic(GameData & G), void Render( GameData & G), GameData & G,int nbCalltoLogicPerSec,bool HideCursor)
 {
 	if (HideCursor)
 	  glutSetCursor(GLUT_CURSOR_NONE);
@@ -170,7 +170,7 @@ void G2D::Run(void logic(GameData & G), void Render(const GameData & G), GameDat
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_CULL_FACE);
-	// glEnable(GL_POLYGON_SMOOTH); à éviter rendu erroné
+	// glEnable(GL_POLYGON_SMOOTH); ï¿½ ï¿½viter rendu erronï¿½
 
 	// Init 	
 	_G2D::initKeys();
@@ -191,7 +191,7 @@ void G2D::Run(void logic(GameData & G), void Render(const GameData & G), GameDat
 	_LogicCallBack   = logic;
 	_RenderCallBack  = Render;
 	myGameData       = & G;
-	glutDisplayFunc(OPENGLRender);      // fonction appelée lors d'un repaint
+	glutDisplayFunc(OPENGLRender);      // fonction appelï¿½e lors d'un repaint
 	glutTimerFunc(300, anim, 0);         // callback de timer avec id = 0, toutes les 50m
 	glutMainLoop();
 }

@@ -29,22 +29,22 @@ enum class Transparency { None, BottomLeft, BottomRight, UpperLeft, UpperRight }
 namespace G2D
 {
 	// key management 
-	bool isKeyPressed(Key k);   // indique si la touche est enfoncée (retourne true tant que le touche est appuyée)
-	bool keyHasBeenHit(Key k);  // retourne true si la touche a été appuyée, retourne false si la touche reste enfoncée
+	bool isKeyPressed(Key k);   // indique si la touche est enfoncï¿½e (retourne true tant que le touche est appuyï¿½e)
+	bool keyHasBeenHit(Key k);  // retourne true si la touche a ï¿½tï¿½ appuyï¿½e, retourne false si la touche reste enfoncï¿½e
 
 	// Main Graphic System Function
 
 	void initWindow(V2 WindowSize, V2 WindowStartPos, std::string name);
-	void Run(void logic(GameData& G), void Render(const GameData& G), GameData& G, int nbCalltoLogicPerSec, bool HideCursor);
+	void Run(void logic(GameData& G), void Render( GameData& G), GameData& G, int nbCalltoLogicPerSec, bool HideCursor);
 	void clearScreen(Color c);
 	void Show();                      
  
 	// Mouse event
 	void getMousePos(int &x, int & y);
-	bool isMouseLeftButtonPressed();   // indique si le bouton gauche de la souris est enfoncé
+	bool isMouseLeftButtonPressed();   // indique si le bouton gauche de la souris est enfoncï¿½
 	bool isMouseRightButtonPressed();
 	bool isAnyMouseButtonPressed();
-	bool detectLeftClick();            // détecte si le bouton gauche de la souris a été cliqué
+	bool detectLeftClick();            // dï¿½tecte si le bouton gauche de la souris a ï¿½tï¿½ cliquï¿½
 	bool detectRightClick();
 
 
@@ -52,7 +52,7 @@ namespace G2D
 	void drawStringFontMono (V2 pos, std::string text, float fontSize = 20, float thickness = 3, Color c = Color::Black);
 	void drawStringFontRoman(V2 pos, std::string text, float fontSize = 20, float thickness = 3, Color c = Color::Black);
 
-	// Crée une texture à partir d'une description 1 lettre = 1 pixel/couleur 
+	// Crï¿½e une texture ï¿½ partir d'une description 1 lettre = 1 pixel/couleur 
 	int initTextureFromString(V2 & Size, const std::string & Sprite);
 
 	// Affichage d'un sprite
@@ -70,6 +70,6 @@ namespace G2D
 
 
 	// Timing function
-	double elapsedTimeFromStartSeconds();   // temps écoulé depuis le début du jeu
+	double elapsedTimeFromStartSeconds();   // temps ï¿½coulï¿½ depuis le dï¿½but du jeu
 	bool   isOnPause();
 }
