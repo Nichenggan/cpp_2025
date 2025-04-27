@@ -6,40 +6,14 @@
 ![Author](https://img.shields.io/badge/author-Chenyi%20Li-brightgreen)
 ## Description
 
+Gravity Ninja is a 2D action game where players control ninjas with unique abilities to navigate challenging terrains, battle opponents, and overcome obstacles. The game features dynamic gravity mechanics, allowing players to manipulate gravity to their advantage during gameplay.
 
 ## Features
 
+- **Dynamic Gravity Mechanics**: Players can control gravity to navigate the environment and gain a tactical edge.
+- **Multiplayer Mode**: Supports up to 2 players for competitive or cooperative gameplay.
+- **Hero Selection**: Choose from three heroes, each with unique abilities and characteristics.
 
-## Installation
-
-To build and run the game, you need to have CMake, OpenGL, and GLUT installed on your system.
-
-1. Clone the repository:
-    ```sh
-    git clone https://github.com/yourusername/Flipper.git
-    cd Flipper
-    ```
-
-2. Create a build directory and navigate into it:
-    ```sh
-    mkdir build
-    cd build
-    ```
-
-3. Run CMake to configure the project:
-    ```sh
-    cmake ..
-    ```
-
-4. Build the project:
-    ```sh
-    make
-    ```
-
-5. Run the game:
-    ```sh
-    ./Flipper
-    ```
 
 ## Usage
 

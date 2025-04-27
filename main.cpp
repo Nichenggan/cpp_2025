@@ -5,7 +5,6 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include <thread>
 
 #include "G2D.h"
 #include "button.h"
