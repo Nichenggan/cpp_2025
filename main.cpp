@@ -49,8 +49,9 @@ void render( GameData & G)
 
 
 			//Instruction
-			G2D::drawStringFontMono(V2(100, 150), string("Player1 -> Press 'A' 'D' to move, 'C' to Change Gravity, 'G' to Attack"), 15, 1, Color::White);
+			G2D::drawStringFontMono(V2(100, 150), string("Player1 -> Press 'A' 'D' to move, 'C' to Change Gravity, 'V' to Attack"), 15, 1, Color::White);
 			G2D::drawStringFontMono(V2(100, 120), string("Player2 -> Press '<-' '->' to move, 'K' to Change Gravity, 'L' to Attack"), 15, 1, Color::White);
+
 
 		break;
 
@@ -100,7 +101,7 @@ void render( GameData & G)
 				G2D::drawStringFontMono(V2(50, G.HeightPix - 200), string("Player 1 wins!"), 50, 5, Color::Red);
 			}
 
-			G2D::drawStringFontMono(V2(50, G.HeightPix - 400), string("Press ENTER to return to main menu"), 10, 1, Color::White);
+			G2D::drawStringFontMono(V2(50, G.HeightPix - 400), string("Press ENTER to return to main menu"), 20, 1, Color::White);
 
 
 			// Le buton
